@@ -1,20 +1,14 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=6164369&assignment_repo_type=AssignmentRepo)
 # iw03
 
-请基于模板工程，为https://itsc.nju.edu.cn开发一个iOS客户端。
+> @author: 汤远航
+>
+> @StuID：181840211
 
-功能要求如下：
+- 基本的思路
 
-1. App界面设计见模板工程的Main Storyboard，首届面通过tab bar controller分为5个栏目
-2. 前4个分别对应网站4个信息栏目（如下），下载list.htm内容并将新闻条目解析显示在Table View中
-   - https://itsc.nju.edu.cn/xwdt/list.htm
-   - https://itsc.nju.edu.cn/tzgg/list.htm
-   - https://itsc.nju.edu.cn/wlyxqk/list.htm
-   - https://itsc.nju.edu.cn/aqtg/list.htm
-3. 点击table view中任意一个cell，获取该cell对应新闻的详细内容页面，解析内容并展示在内容详情场景中
-4. 最后一个栏目显示 https://itsc.nju.edu.cn/main.htm 最后“关于我们”部分的信息
+  通过并发同时访问多个网页，并在获得一个网页的html文件后，并发读取其中的信息。具体的，通过并发读取至多 5 个新闻页面。对于每个页面，并发地遍历新闻条目，获得其中的新闻标题、日期和url。在获取 url 之后，访问页面，读取其中文字，获得新闻详情。然后显示在UI界面上
 
-非功能需求如下：
-1. 界面美观（通过自动化布局适配多种设备）
-2. 性能良好（用GCD进行并发编程，网络通信应考虑缓冲已下载数据内容）
-
+- 技术实现
+  - 并发通过 `operation`和`DispatchQueue.main` 实现. 前者用于后台的数据获取, 后者用于更新 UI.
+  - 网络访问通过 `URLSession` 实现, 网页的解析通过 `SwiftSoup` 实现
+  - `SwiftSoup` 等第三方包通过 `Cocoapods` 进行管理和下载
